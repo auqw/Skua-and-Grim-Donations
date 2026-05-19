@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skua & Grim Donations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --bg-dark: #0f172a;
+            --bg-card: #1e1b4b;
+            --border-color: #4c1d95;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --status-active: #10b981;
+            --status-inactive: #ef4444;
+            --status-hiatus: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a0f3a 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            animation: slideUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .section:nth-of-type(1) { animation-delay: 0.1s; }
+        .section:nth-of-type(2) { animation-delay: 0.2s; }
+        .section:nth-of-type(3) { animation-delay: 0.3s; }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .section-icon {
+            font-size: 1.8rem;
+        }
+
+        .subsection-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subsection-title.inactive-title {
+            color: #94a3b8;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .inactive-grid {
+            opacity: 0.75;
+        }
+
+        .inactive-grid .donor-card {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .inactive-grid .donor-card:hover {
+            opacity: 1;
+        }
+
+        .donors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .donor-card {
+            border: 2px solid var(--border-color);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .donor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .donor-card:hover::before {
+            left: 100%;
+        }
+
+        .donor-card:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .donor-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .donor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            border: 2px solid var(--primary);
+            flex-shrink: 0;
+        }
+
+        .donor-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .donor-role {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .payment-item:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateX(5px);
+        }
+
+        .payment-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .payment-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .payment-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .payment-value {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            word-break: break-all;
+            margin-top: 0.25rem;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--status-active);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.75rem;
+        }
+
+        .status-badge.active {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--status-active);
+        }
+
+        .status-badge.inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--status-inactive);
+        }
+
+        .status-badge.hiatus {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--status-hiatus);
+        }
+
+        .perks-section {
+            border: 2px solid var(--border-color);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            animation: slideUp 0.8s ease-out;
+            animation-delay: 0.4s;
+            animation-fill-mode: both;
+        }
+
+        .perks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .perk-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .perk-icon {
+            font-size: 2rem;
+            min-width: 40px;
+        }
+
+        .perk-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .perk-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            animation: slideUp 0.8s ease-out;
+            animation-delay: 0.5s;
+            animation-fill-mode: both;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .donors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .perks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="logo">🐙</div>
+                <div>
+                    <h1>Skua & <span class="gradient-text">Grim</span></h1>
+                    <p class="subtitle">Support the developers & contributors 💜</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="skua">SKUA</button>
+            <button class="filter-btn" data-filter="grim">GRIM</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><span class="section-icon">💜</span>SKUA</h2>
+            <div>
+                <div id="skua-active">
+                    <h3 class="subsection-title">Currently Supporting</h3>
+                    <div class="donors-grid" id="skua-active-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                <div id="skua-inactive">
+                    <h3 class="subsection-title inactive-title">Past Contributors</h3>
+                    <div class="donors-grid inactive-grid" id="skua-inactive-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><span class="section-icon">🌙</span>GRIM</h2>
+            <div>
+                <div id="grim-active">
+                    <h3 class="subsection-title">Currently Supporting</h3>
+                    <div class="donors-grid" id="grim-active-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                <div id="grim-inactive">
+                    <h3 class="subsection-title inactive-title">Past Contributors</h3>
+                    <div class="donors-grid inactive-grid" id="grim-inactive-grid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="perks-section">
+            <h2 class="section-title"><span class="section-icon">🎁</span>Donor Perks</h2>
+            <p>After donating, contact the developer you supported to receive the <strong style="color: var(--primary);">Donor role</strong>.</p>
+            <div class="perks-grid">
+                <div class="perk-item">
+                    <div class="perk-icon">🎨</div>
+                    <div>
+                        <div class="perk-title">Custom Color</div>
+                        <div class="perk-description">Provide hex code (#) for your custom role color</div>
+                    </div>
+                </div>
+                <div class="perk-item">
+                    <div class="perk-icon">📝</div>
+                    <div>
+                        <div class="perk-title">Role Name</div>
+                        <div class="perk-description">Choose your own role name</div>
+                    </div>
+                </div>
+                <div class="perk-item">
+                    <div class="perk-icon">🖼️</div>
+                    <div>
+                        <div class="perk-title">Role Icon</div>
+                        <div class="perk-description">Custom emoji or NSFW-safe image</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>💜 Thank you for supporting the project 💜</p>
+        </footer>
+    </div>
+
+    <script>
+        const donors = {
+            skua: [
+                {
+                    name: 'Breno_Henrike',
+                    role: 'Creator 0.1 → 1.2.3',
+                    avatar: 'BH',
+                    status: 'inactive',
+                    payments: [
+                        { type: 'PayPal', value: 'https://www.paypal.com/donate?hosted_button_id=QVQ4Q7XSH0VBY' }
+                    ]
+                },
+                {
+                    name: 'Purple',
+                    role: 'Maintainer 1.2.4 → Current',
+                    avatar: 'P',
+                    status: 'active',
+                    payments: [
+                        { type: 'Ko-fi', value: 'https://ko-fi.com/sharpthenightmare' },
+                        { type: 'ETH', value: '0xd66fb89f503c9c140934791788d17c9e87d7c0de' }
+                    ]
+                },
+                {
+                    name: 'Tato',
+                    role: 'Script Manager (1/2)',
+                    avatar: 'T',
+                    status: 'active',
+                    payments: [
+                        { type: 'Ko-fi', value: 'https://ko-fi.com/tato_skua' }
+                    ]
+                },
+                {
+                    name: 'Bogali',
+                    role: 'Script Manager (2/2)',
+                    avatar: 'B',
+                    status: 'hiatus',
+                    payments: [
+                        { type: 'Ko-fi', value: 'https://ko-fi.com/bogali' }
+                    ]
+                },
+                {
+                    name: 'Vanilla99',
+                    role: 'Ultras',
+                    avatar: '99',
+                    status: 'inactive',
+                    payments: [
+                        { type: 'Ko-fi', value: 'https://ko-fi.com/thevanilla99' }
+                    ]
+                }
+            ],
+            grim: [
+                {
+                    name: 'Gentle Ganku',
+                    role: 'Creator',
+                    avatar: 'GG',
+                    status: 'hiatus',
+                    payments: [
+                        { type: 'PayPal', value: 'https://paypal.me/GentleGanku' }
+                    ]
+                }
+            ]
+        };
+
+        const statusIcons = {
+            active: '✓',
+            inactive: '✕',
+            hiatus: '⏱'
+        };
+
+        const statusLabels = {
+            active: 'Active',
+            inactive: 'No longer active',
+            hiatus: 'On Hiatus'
+        };
+
+        function getPaymentIcon(type) {
+            const icons = {
+                'PayPal': '🅿️',
+                'Ko-fi': '☕',
+                'ETH': '⟠'
+            };
+            return icons[type] || '💳';
+        }
+
+        function createDonorCard(donor) {
+            return `
+                <div class="donor-card" data-status="${donor.status}">
+                    <div class="donor-header">
+                        <div class="donor-avatar">${donor.avatar}</div>
+                        <div class="donor-info">
+                            <h3>${donor.name}</h3>
+                            <p class="donor-role">${donor.role}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        ${donor.payments.map(payment => `
+                            <div class="payment-item">
+                                <div class="payment-icon">${getPaymentIcon(payment.type)}</div>
+                                <div class="payment-details">
+                                    <div class="payment-label">${payment.type}</div>
+                                    <div class="payment-value">${payment.value}</div>
+                                </div>
+                                <button class="copy-btn" onclick="copyToClipboard('${payment.value}', this)">Copy</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="status-badge ${donor.status}">
+                        <span>${statusIcons[donor.status]}</span>
+                        <span>${statusLabels[donor.status]}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDonors(filter = 'all') {
+            if (filter === 'all' || filter === 'skua') {
+                const activeSkua = donors.skua.filter(d => d.status === 'active');
+                const inactiveSkua = donors.skua.filter(d => d.status !== 'active');
+                
+                const skuaActiveGrid = document.getElementById('skua-active-grid');
+                const skuaInactiveGrid = document.getElementById('skua-inactive-grid');
+                const skuaActive = document.getElementById('skua-active');
+                const skuaInactive = document.getElementById('skua-inactive');
+                
+                skuaActiveGrid.innerHTML = activeSkua.length ? activeSkua.map(createDonorCard).join('') : '<div class="empty-state">No active donors yet</div>';
+                skuaInactiveGrid.innerHTML = inactiveSkua.map(createDonorCard).join('');
+                
+                skuaActive.style.display = activeSkua.length > 0 ? 'block' : 'none';
+                skuaInactive.style.display = inactiveSkua.length > 0 ? 'block' : 'none';
+            }
+
+            if (filter === 'all' || filter === 'grim') {
+                const activeGrim = donors.grim.filter(d => d.status === 'active');
+                const inactiveGrim = donors.grim.filter(d => d.status !== 'active');
+                
+                const grimActiveGrid = document.getElementById('grim-active-grid');
+                const grimInactiveGrid = document.getElementById('grim-inactive-grid');
+                const grimActive = document.getElementById('grim-active');
+                const grimInactive = document.getElementById('grim-inactive');
+                
+                grimActiveGrid.innerHTML = activeGrim.length ? activeGrim.map(createDonorCard).join('') : '<div class="empty-state">No active donors yet</div>';
+                grimInactiveGrid.innerHTML = inactiveGrim.map(createDonorCard).join('');
+                
+                grimActive.style.display = activeGrim.length > 0 ? 'block' : 'none';
+                grimInactive.style.display = inactiveGrim.length > 0 ? 'block' : 'none';
+            }
+
+            if (filter === 'active') {
+                const activeSkua = donors.skua.filter(d => d.status === 'active');
+                const activeGrim = donors.grim.filter(d => d.status === 'active');
+                
+                document.getElementById('skua-active-grid').innerHTML = activeSkua.length ? activeSkua.map(createDonorCard).join('') : '<div class="empty-state">No active donors</div>';
+                document.getElementById('skua-inactive-grid').innerHTML = '';
+                document.getElementById('grim-active-grid').innerHTML = activeGrim.length ? activeGrim.map(createDonorCard).join('') : '<div class="empty-state">No active donors</div>';
+                document.getElementById('grim-inactive-grid').innerHTML = '';
+                
+                document.getElementById('skua-active').style.display = 'block';
+                document.getElementById('skua-inactive').style.display = 'none';
+                document.getElementById('grim-active').style.display = 'block';
+                document.getElementById('grim-inactive').style.display = 'none';
+            }
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = button.textContent;
+                button.textContent = '✓';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = original;
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderDonors(btn.dataset.filter);
+            });
+        });
+
+        // Initial render
+        renderDonors();
+    </script>
+</body>
+</html>
