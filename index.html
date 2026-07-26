@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skua & Grim Donations</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%238b5cf6' width='100' height='100' rx='20'/><text x='50' y='65' font-size='60' text-anchor='middle' dominant-baseline='middle'>🐙</text></svg>">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Skua & Grim Donations</title>
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -244,6 +243,13 @@
             flex-shrink: 0;
         }
 
+        .donor-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .donor-info h3 {
             font-size: 1.2rem;
             margin-bottom: 0.25rem;
@@ -445,96 +451,147 @@
             color: var(--text-secondary);
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <div class="logo">🐙</div>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="header-top">
+                    <div class="logo">🐙</div>
+                    <div>
+                        <h1>Skua & <span class="gradient-text">Grim</span></h1>
+                        <p class="subtitle">Support the developers &
+                            contributors 💜</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="filters">
+                <button class="filter-btn" data-filter="skua">SKUA</button>
+                <button class="filter-btn" data-filter="vibeskua">VibeSkua</button>
+                <button class="filter-btn" data-filter="grim">GRIM</button>
+                <button class="filter-btn" data-filter="aqibeyond">AQI Beyond</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn active" data-filter="all">All</button>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><span
+                        class="section-icon">💜</span>SKUA</h2>
                 <div>
-                    <h1>Skua & <span class="gradient-text">Grim</span></h1>
-                    <p class="subtitle">Support the developers & contributors 💜</p>
-                </div>
-            </div>
-        </header>
-
-        <div class="filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="skua">SKUA</button>
-            <button class="filter-btn" data-filter="grim">GRIM</button>
-            <button class="filter-btn" data-filter="active">Active</button>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title"><span class="section-icon">💜</span>SKUA</h2>
-            <div>
-                <div id="skua-active">
-                    <h3 class="subsection-title">Currently Supporting</h3>
-                    <div class="donors-grid" id="skua-active-grid">
-                        <!-- Populated by JavaScript -->
+                    <div id="skua-active">
+                        <h3 class="subsection-title">Currently Supporting</h3>
+                        <div class="donors-grid" id="skua-active-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
                     </div>
-                </div>
-                <div id="skua-inactive">
-                    <h3 class="subsection-title inactive-title">Past Contributors</h3>
-                    <div class="donors-grid inactive-grid" id="skua-inactive-grid">
-                        <!-- Populated by JavaScript -->
+                    <div id="skua-inactive">
+                        <h3 class="subsection-title inactive-title">Past
+                            Contributors</h3>
+                        <div class="donors-grid inactive-grid"
+                            id="skua-inactive-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="section">
-            <h2 class="section-title"><span class="section-icon">🌙</span>GRIM</h2>
-            <div>
-                <div id="grim-active">
-                    <h3 class="subsection-title">Currently Supporting</h3>
-                    <div class="donors-grid" id="grim-active-grid">
-                        <!-- Populated by JavaScript -->
+            <div class="section">
+                <h2 class="section-title"><span
+                        class="section-icon">🌙</span>GRIM</h2>
+                <div>
+                    <div id="grim-active">
+                        <h3 class="subsection-title">Currently Supporting</h3>
+                        <div class="donors-grid" id="grim-active-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
                     </div>
-                </div>
-                <div id="grim-inactive">
-                    <h3 class="subsection-title inactive-title">Past Contributors</h3>
-                    <div class="donors-grid inactive-grid" id="grim-inactive-grid">
-                        <!-- Populated by JavaScript -->
+                    <div id="grim-inactive">
+                        <h3 class="subsection-title inactive-title">Past
+                            Contributors</h3>
+                        <div class="donors-grid inactive-grid"
+                            id="grim-inactive-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="perks-section">
-            <h2 class="section-title"><span class="section-icon">🎁</span>Donor Perks</h2>
-            <p>After donating, contact the developer you supported to receive the <strong style="color: var(--primary);">Donor role</strong>.</p>
-            <div class="perks-grid">
-                <div class="perk-item">
-                    <div class="perk-icon">🎨</div>
-                    <div>
-                        <div class="perk-title">Custom Color</div>
-                        <div class="perk-description">Provide hex code (#) for your custom role color</div>
+            <div class="section">
+                <h2 class="section-title"><span
+                        class="section-icon">🌈</span>VibeSkua</h2>
+                <div>
+                    <div id="vibeskua-active">
+                        <h3 class="subsection-title">Currently Supporting</h3>
+                        <div class="donors-grid"
+                            id="vibeskua-active-grid"></div>
                     </div>
-                </div>
-                <div class="perk-item">
-                    <div class="perk-icon">📝</div>
-                    <div>
-                        <div class="perk-title">Role Name</div>
-                        <div class="perk-description">Choose your own role name</div>
-                    </div>
-                </div>
-                <div class="perk-item">
-                    <div class="perk-icon">🖼️</div>
-                    <div>
-                        <div class="perk-title">Role Icon</div>
-                        <div class="perk-description">Custom emoji or NSFW-safe image</div>
+                    <div id="vibeskua-inactive">
+                        <h3 class="subsection-title inactive-title">Past
+                            Contributors</h3>
+                        <div class="donors-grid inactive-grid"
+                            id="vibeskua-inactive-grid"></div>
                     </div>
                 </div>
             </div>
+
+            <div class="section">
+                <h2 class="section-title"><span class="section-icon">✨</span>AQI
+                    Beyond</h2>
+                <div>
+                    <div id="aqibeyond-active">
+                        <h3 class="subsection-title">Currently Supporting</h3>
+                        <div class="donors-grid"
+                            id="aqibeyond-active-grid"></div>
+                    </div>
+                    <div id="aqibeyond-inactive">
+                        <h3 class="subsection-title inactive-title">Past
+                            Contributors</h3>
+                        <div class="donors-grid inactive-grid"
+                            id="aqibeyond-inactive-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="perks-section">
+                <h2 class="section-title"><span
+                        class="section-icon">🎁</span>Donor Perks</h2>
+                <p>After donating, contact the developer you supported to
+                    receive the <strong style="color: var(--primary);">Donor
+                        role</strong>.</p>
+                <div class="perks-grid">
+                    <div class="perk-item">
+                        <div class="perk-icon">🎨</div>
+                        <div>
+                            <div class="perk-title">Custom Color</div>
+                            <div class="perk-description">Provide hex code (#)
+                                for your custom role color</div>
+                        </div>
+                    </div>
+                    <div class="perk-item">
+                        <div class="perk-icon">📝</div>
+                        <div>
+                            <div class="perk-title">Role Name</div>
+                            <div class="perk-description">Choose your own role
+                                name</div>
+                        </div>
+                    </div>
+                    <div class="perk-item">
+                        <div class="perk-icon">🖼️</div>
+                        <div>
+                            <div class="perk-title">Role Icon</div>
+                            <div class="perk-description">Custom emoji or
+                                a *STRICTLY* sfw(safe for work) image</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <p>💜 Thank you for supporting the project 💜</p>
+            </footer>
         </div>
 
-        <footer>
-            <p>💜 Thank you for supporting the project 💜</p>
-        </footer>
-    </div>
-
-    <script>
+        <script>
         const donors = {
             skua: [
                 {
@@ -542,15 +599,16 @@
                     role: 'Creator 0.1 → 1.2.3',
                     avatar: 'BH',
                     status: 'inactive',
-                    payments: [
-                        { type: 'PayPal', value: 'https://www.paypal.com/donate?hosted_button_id=QVQ4Q7XSH0VBY' }
-                    ]
+                    // payments: [
+                    //     { type: 'PayPal', value: 'https://www.paypal.com/donate?hosted_button_id=QVQ4Q7XSH0VBY' }
+                    // ]
+                    payments: []
                 },
                 {
                     name: 'Purple',
-                    role: 'Maintainer 1.2.4 → Current',
+                    role: 'Maintainer 1.2.4 → 1.4.3.0',
                     avatar: 'P',
-                    status: 'active',
+                    status: 'hiatus',
                     payments: [
                         { type: 'Ko-fi', value: 'https://ko-fi.com/sharpthenightmare' },
                         { type: 'ETH', value: '0xd66fb89f503c9c140934791788d17c9e87d7c0de' }
@@ -558,43 +616,74 @@
                 },
                 {
                     name: 'Tato',
-                    role: 'Script Manager (1/2)',
-                    avatar: 'T',
+                    role: 'General Script Team Manager',
+                    avatar: 'https://i.imgur.com/jBpD9Ju.png',
                     status: 'active',
                     payments: [
                         { type: 'Ko-fi', value: 'https://ko-fi.com/tato_skua' }
                     ]
                 },
                 {
-                    name: 'Bogalj',
-                    role: 'Script Manager (2/2)',
+                    name: 'Bogali',
+                    role: 'Secondary Script Manager',
                     avatar: 'B',
                     status: 'hiatus',
                     payments: [
-                        { type: 'Ko-fi', value: 'https://ko-fi.com/bogalj' }
+                        { type: 'Ko-fi', value: 'https://ko-fi.com/bogali' }
                     ]
                 },
                 {
                     name: 'Vanilla99',
-                    role: 'Ultras',
+                    role: 'Ultrasv 1',
                     avatar: '99',
                     status: 'inactive',
+                    payments: []
+                },
+                {
+                    name: 'Crow',
+                    role: 'Script Dev (Ultra v3)',
+                    avatar: 'https://i.imgur.com/4LUukNY.png',
+                    status: 'active',
                     payments: [
-                        { type: 'Ko-fi', value: 'https://ko-fi.com/thevanilla99' }
+                        { type: 'Ko-fi', value: 'https://ko-fi.com/crowgames8075' }
                     ]
-                }
+                }, 
             ],
             grim: [
                 {
                     name: 'Gentle Ganku',
-                    role: 'Creator',
+                    role: 'Creator of multiple Grim versions over the years',
                     avatar: 'GG',
                     status: 'hiatus',
-                    payments: [
-                        { type: 'PayPal', value: 'https://paypal.me/GentleGanku' }
-                    ]
+                    payments: []
                 }
-            ]
+            ],
+            vibeskua:[            
+                {
+                    name: 'Renoir Dessendre',
+                    role: 'Creator of the VibeSkua branch of 1.4.3.0',
+                    avatar: 'GG',
+                    status: 'active',
+                    payments: []
+                }
+            ],
+            aqibeyond:[            
+                {
+                    name: 'retr0gr4d3',
+                    role: '1/2 of the Creators & Maintainers of the AQI Beyond (AQInfinity client)',
+                    avatar: 'GG',
+                    status: 'active',
+                    payments: []
+                },    
+                {
+                    name: 'Redux',
+                    role: '2/2 of the Creators & Maintainers of the AQI Beyond (AQInfinity client)',
+                    avatar: 'GG',
+                    status: 'active',
+                    payments: []
+                }
+            ],
+
         };
 
         const statusIcons = {
@@ -622,7 +711,11 @@
             return `
                 <div class="donor-card" data-status="${donor.status}">
                     <div class="donor-header">
-                        <div class="donor-avatar">${donor.avatar}</div>
+                        <div class="donor-avatar">
+                            ${donor.avatar.startsWith('http') 
+                                ? `<img src="${donor.avatar}" alt="${donor.name}">`
+                                : donor.avatar}
+                        </div>
                         <div class="donor-info">
                             <h3>${donor.name}</h3>
                             <p class="donor-role">${donor.role}</p>
@@ -650,54 +743,31 @@
             `;
         }
 
-        function renderDonors(filter = 'all') {
-            if (filter === 'all' || filter === 'skua') {
-                const activeSkua = donors.skua.filter(d => d.status === 'active');
-                const inactiveSkua = donors.skua.filter(d => d.status !== 'active');
-                
-                const skuaActiveGrid = document.getElementById('skua-active-grid');
-                const skuaInactiveGrid = document.getElementById('skua-inactive-grid');
-                const skuaActive = document.getElementById('skua-active');
-                const skuaInactive = document.getElementById('skua-inactive');
-                
-                skuaActiveGrid.innerHTML = activeSkua.length ? activeSkua.map(createDonorCard).join('') : '<div class="empty-state">No active donors yet</div>';
-                skuaInactiveGrid.innerHTML = inactiveSkua.map(createDonorCard).join('');
-                
-                skuaActive.style.display = activeSkua.length > 0 ? 'block' : 'none';
-                skuaInactive.style.display = inactiveSkua.length > 0 ? 'block' : 'none';
-            }
+        function renderGroup(key, filter) {
+    const activeGridEl = document.getElementById(`${key}-active-grid`);
+    const inactiveGridEl = document.getElementById(`${key}-inactive-grid`);
+    const activeSection = document.getElementById(`${key}-active`);
+    const inactiveSection = document.getElementById(`${key}-inactive`);
+    if (!activeGridEl) return; // no matching HTML for this group
 
-            if (filter === 'all' || filter === 'grim') {
-                const activeGrim = donors.grim.filter(d => d.status === 'active');
-                const inactiveGrim = donors.grim.filter(d => d.status !== 'active');
-                
-                const grimActiveGrid = document.getElementById('grim-active-grid');
-                const grimInactiveGrid = document.getElementById('grim-inactive-grid');
-                const grimActive = document.getElementById('grim-active');
-                const grimInactive = document.getElementById('grim-inactive');
-                
-                grimActiveGrid.innerHTML = activeGrim.length ? activeGrim.map(createDonorCard).join('') : '<div class="empty-state">No active donors yet</div>';
-                grimInactiveGrid.innerHTML = inactiveGrim.map(createDonorCard).join('');
-                
-                grimActive.style.display = activeGrim.length > 0 ? 'block' : 'none';
-                grimInactive.style.display = inactiveGrim.length > 0 ? 'block' : 'none';
-            }
+    const list = donors[key] || [];
+    const active = list.filter(d => d.status === 'active');
+    const inactive = list.filter(d => d.status !== 'active');
 
-            if (filter === 'active') {
-                const activeSkua = donors.skua.filter(d => d.status === 'active');
-                const activeGrim = donors.grim.filter(d => d.status === 'active');
-                
-                document.getElementById('skua-active-grid').innerHTML = activeSkua.length ? activeSkua.map(createDonorCard).join('') : '<div class="empty-state">No active donors</div>';
-                document.getElementById('skua-inactive-grid').innerHTML = '';
-                document.getElementById('grim-active-grid').innerHTML = activeGrim.length ? activeGrim.map(createDonorCard).join('') : '<div class="empty-state">No active donors</div>';
-                document.getElementById('grim-inactive-grid').innerHTML = '';
-                
-                document.getElementById('skua-active').style.display = 'block';
-                document.getElementById('skua-inactive').style.display = 'none';
-                document.getElementById('grim-active').style.display = 'block';
-                document.getElementById('grim-inactive').style.display = 'none';
-            }
+    activeGridEl.innerHTML = active.length ? active.map(createDonorCard).join('') : '<div class="empty-state">No active donors yet</div>';
+    inactiveGridEl.innerHTML = filter === 'active' ? '' : inactive.map(createDonorCard).join('');
+
+    activeSection.style.display = active.length > 0 ? 'block' : 'none';
+    inactiveSection.style.display = (filter !== 'active' && inactive.length > 0) ? 'block' : 'none';
+}
+
+function renderDonors(filter = 'all') {
+    Object.keys(donors).forEach(key => {
+        if (filter === 'all' || filter === key || filter === 'active') {
+            renderGroup(key, filter);
         }
+    });
+}
 
         function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(() => {
@@ -723,5 +793,5 @@
         // Initial render
         renderDonors();
     </script>
-</body>
+    </body>
 </html>
