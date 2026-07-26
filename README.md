@@ -1,4 +1,4 @@
-# 🐙 Skua & Grim Donations
+# 🐙 Contributers & Donations
 
 An interactive donations page supporting the developers behind **Skua**, **Grim**, **VibeSkua**, and **AQI Beyond**. Built with vanilla HTML/CSS/JS, hosted on GitHub Pages.
 
