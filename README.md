@@ -1,213 +1,116 @@
 # 🐙 Skua & Grim Donations
 
-A beautiful, interactive donations page for Skua & Grim project supporters. Built with vanilla HTML/CSS/JS and hosted on GitHub Pages.
+An interactive donations page supporting the developers behind **Skua**, **Grim**, **VibeSkua**, and **AQI Beyond**. Built with vanilla HTML/CSS/JS, hosted on GitHub Pages.
 
-**Live Demo:** Visit your deployed site at `https://your-username.github.io/`
+**Live site:** https://auqw.github.io/Skua-and-Grim-Donations/
 
-## 🚀 Quick Start
+## What this is
 
-### 1. Setup on GitHub
+A single-page site (`index.html`) listing current and past contributors across four client branches, with quick-copy payment links and status badges (Active / On Hiatus / No Longer Active).
 
-1. Create a new public repository on [GitHub](https://github.com/new)
-   - Name it `your-username.github.io` (for a personal site) or anything else
-   - Make it **public**
-   - Click "Create repository"
+**Groups currently tracked:**
+- 💜 **SKUA** — the original client
+- 🌙 **GRIM** — Grim client versions
+- 🌈 **VibeSkua** — the VibeSkua branch of 1.4.3.0
+- ✨ **AQI Beyond** — the AQInfinity client
 
-2. Clone the repo and add files:
-   ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
-   # Copy index.html and README.md into this folder
-   ```
+Visitors can filter by group (`SKUA`, `GRIM`, `VibeSkua`, `AQI Beyond`), by `Active` only, or view `All`.
 
-3. Push to GitHub:
-   ```bash
-   git add .
-   git commit -m "Add donations page"
-   git push
-   ```
+## 🎨 Adding or Updating a Donor
 
-4. Enable GitHub Pages:
-   - Go to **Settings** → **Pages**
-   - Select **Deploy from a branch**
-   - Choose **main** branch, **/root** folder
-   - Click **Save**
+All donor data lives in the `donors` object inside `index.html` (in the `<script>` block near the bottom).
 
-Your site will be live at `https://your-username.github.io/` in a few seconds!
-
-## 🎨 Customization
-
-### Add or Update Donors
-
-Edit the `donors` object in `index.html` (around line 380):
+Each group is a key in `donors` (`skua`, `grim`, `vibeskua`, `aqibeyond`), containing an array of donor objects:
 
 ```javascript
-const donors = {
-  skua: [
-    {
-      name: 'Your Name',
-      role: 'Your Role',
-      avatar: 'YN',  // 2-4 characters shown in circle
-      status: 'active',  // 'active', 'inactive', or 'hiatus'
-      payments: [
+{
+    name: 'Your Name',
+    role: 'Your Role / Contribution',
+    avatar: 'YN',   // 2-4 char initials, OR a full image URL (e.g. 'https://i.imgur.com/xxxx.png')
+    status: 'active',   // 'active' | 'hiatus' | 'inactive'
+    payments: [
         { type: 'Ko-fi', value: 'https://ko-fi.com/yourname' },
         { type: 'PayPal', value: 'https://paypal.me/yourname' },
         { type: 'ETH', value: '0xYourEthereumAddress' }
-      ]
-    }
-    // Add more donors...
-  ],
-  grim: [
-    // Same structure as skua
-  ]
-};
-```
-
-**Status options:**
-- `'active'` - Shows at top with ✓ badge (green)
-- `'inactive'` - Shows at bottom with ✕ badge (red) - "No longer active"
-- `'hiatus'` - Shows at bottom with ⏱ badge (orange) - "On Hiatus"
-
-**Payment types:** `'Ko-fi'`, `'PayPal'`, `'ETH'`, or create your own
-
-### Change Colors & Theme
-
-All colors are CSS variables at the top of `index.html` (lines 10-18):
-
-```css
-:root {
-    --primary: #8b5cf6;           /* Main purple */
-    --primary-dark: #7c3aed;      /* Darker purple */
-    --bg-dark: #0f172a;           /* Dark background */
-    --bg-card: #1e1b4b;           /* Card background */
-    --border-color: #4c1d95;      /* Border color */
-    --text-primary: #f8fafc;      /* Main text */
-    --text-secondary: #cbd5e1;    /* Secondary text */
-    --status-active: #10b981;     /* Green for active */
-    --status-inactive: #ef4444;   /* Red for inactive */
-    --status-hiatus: #f59e0b;     /* Orange for hiatus */
+    ]
 }
 ```
 
-Change any hex code and the whole theme updates instantly!
+**Status meanings:**
+- `active` — shown at the top of the group with a green ✓ badge
+- `hiatus` — shown under "Past Contributors" with an orange ⏱ badge ("On Hiatus")
+- `inactive` — shown under "Past Contributors" with a red ✕ badge ("No longer active")
 
-### Update Text Content
+### Adding a brand-new group (not just a new donor)
 
-- **Header**: Line ~220 - Change logo emoji and title
-- **Subtitle**: Line ~225 - Change "Support the developers & contributors 💜"
-- **Section titles**: Lines ~285-290 - Change "SKUA", "GRIM"
-- **Perks section**: Lines ~298-320 - Update donor benefits info
-- **Footer**: Line ~327 - Change final message
+If you ever need a fifth group beyond SKUA/GRIM/VibeSkua/AQI Beyond, three things all need to be added together, or the group silently won't render:
 
-### Add Custom Payment Methods
+1. A new key + donor array under `donors` in the script.
+2. A matching HTML `<div class="section">` block with `id="<key>-active"`, `id="<key>-inactive"`, and the corresponding `-active-grid` / `-inactive-grid` container divs (copy an existing section as a template).
+3. A filter button: `<button class="filter-btn" data-filter="<key>">Label</button>`.
 
-Need a payment type not in the list? Add it to the `getPaymentIcon()` function (line 387):
+The render logic (`renderDonors` / `renderGroup`) auto-detects any group name that has matching HTML IDs, so no JS changes are needed beyond that — just make sure the `<key>` used in `donors` matches the ID prefixes exactly.
 
+## 🎨 Customization
+
+**Theme colors** — CSS variables near the top of `index.html`:
+```css
+:root {
+    --primary: #8b5cf6;
+    --primary-dark: #7c3aed;
+    --bg-dark: #0f172a;
+    --bg-card: #1e1b4b;
+    --border-color: #4c1d95;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --status-active: #10b981;
+    --status-inactive: #ef4444;
+    --status-hiatus: #f59e0b;
+}
+```
+
+**Payment method icons** — add new types in `getPaymentIcon()`:
 ```javascript
 function getPaymentIcon(type) {
     const icons = {
         'PayPal': '🅿️',
         'Ko-fi': '☕',
         'ETH': '⟠',
-        'Your Method': '🎯'  // Add this line
+        'Your Method': '🎯'  // add here
     };
     return icons[type] || '💳';
 }
 ```
 
-Then use it in your donor payment object: `{ type: 'Your Method', value: '...' }`
+**Grid column width** — `.donors-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }`
 
-## ✨ Features
+## 🎁 Donor Perks
 
-- ✅ **Copy-to-clipboard** - Click any payment link to copy
-- ✅ **Smart filtering** - View All, SKUA only, GRIM only, or Active donors
-- ✅ **Responsive design** - Works on mobile, tablet, desktop
-- ✅ **Smooth animations** - Page load effects and hover interactions
-- ✅ **Status organization** - Active supporters at top, past contributors below
-- ✅ **Dark mode** - Easy on the eyes with beautiful purple theme
-- ✅ **No build process** - Plain HTML/CSS/JS, no dependencies
+After donating, contact the developer you supported to receive the **Donor role** in Discord. Perks include:
+- Custom role color (provide a hex code)
+- Custom role name
+- Custom role icon (emoji or a strictly SFW image)
 
-## 🔧 Advanced Customization
+## 📝 Deploying Changes
 
-### Change Font
-
-Find the `font-family` on line 44:
-
-```css
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', ...
-```
-
-Replace with your favorite:
-- Modern: `'Inter', 'Helvetica Neue', sans-serif`
-- Elegant: `'Georgia', 'Times New Roman', serif`
-- Fun: `'Comic Sans MS', cursive` (just kidding 😄)
-
-### Adjust Layout
-
-- **Grid columns**: Line 180 - Change `grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));`
-  - Larger cards: `minmax(400px, 1fr)`
-  - Smaller cards: `minmax(280px, 1fr)`
-  - Fixed 2 columns: `repeat(2, 1fr)`
-
-- **Spacing/padding**: Search for `padding` and `gap` values to adjust
-
-### Add Custom Animations
-
-Modify or add keyframes around line 340:
-
-```css
-@keyframes yourAnimation {
-    from { /* starting state */ }
-    to { /* ending state */ }
-}
-```
-
-Then apply to elements with `animation: yourAnimation 0.8s ease-out;`
-
-## 📝 Updates & Maintenance
-
-After editing:
+This repo deploys via **GitHub Pages from the `master` branch, root folder**. Any push to `master` that touches `index.html` goes live within seconds — no build step required.
 
 ```bash
-# Make your changes to index.html, then:
 git add index.html
 git commit -m "Update donor list"
 git push
 ```
 
-Site updates automatically within seconds!
+If changes don't appear immediately, hard-refresh your browser (Ctrl+Shift+R / Cmd+Shift+R) — GitHub Pages updates fast, but browsers cache aggressively.
 
-## 🎯 Tips
+## ✨ Features
 
-- **Test locally**: Open `index.html` directly in your browser to preview before pushing
-- **Use Chrome DevTools** (F12) to inspect elements and test CSS changes
-- **Keep backups** - GitHub has version history, but keep a local copy
-- **Mobile friendly** - Always test on phone-sized screens
-
-## 📋 Example: Adding a New Donor
-
-```javascript
-{
-    name: 'Alice Wonder',
-    role: 'Community Manager',
-    avatar: 'AW',
-    status: 'active',
-    payments: [
-        { type: 'Ko-fi', value: 'https://ko-fi.com/alicewonder' },
-        { type: 'ETH', value: '0x1234567890abcdef...' }
-    ]
-}
-```
-
-## 🤝 Support
-
-Need help? Check:
-- GitHub Pages docs: https://pages.github.com/
-- CSS reference: https://developer.mozilla.org/en-US/docs/Web/CSS
-- HTML elements: https://developer.mozilla.org/en-US/docs/Web/HTML
+- ✅ Copy-to-clipboard for payment links
+- ✅ Filter by group or by Active status
+- ✅ Responsive layout (mobile/tablet/desktop)
+- ✅ Active supporters surfaced above past contributors
+- ✅ No build process — plain HTML/CSS/JS, no dependencies
 
 ---
 
 **Made with 💜 for Skua & Grim**
-
-Enjoy your donation page! Don't forget to thank your supporters! 🎉
